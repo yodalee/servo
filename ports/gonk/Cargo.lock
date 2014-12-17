@@ -101,7 +101,7 @@ dependencies = [
 [[package]]
 name = "cssparser"
 version = "0.1.0"
-source = "git+https://github.com/servo/rust-cssparser#3f98f1308b769b5d61efc6c133ac520df2b074ac"
+source = "git+https://github.com/servo/rust-cssparser#97d8c3b20a240881573748d4eadcda610bfb888c"
 dependencies = [
  "encoding 0.2.0 (git+https://github.com/lifthrasiir/rust-encoding)",
 ]
@@ -197,6 +197,11 @@ version = "2.4.11"
 source = "git+https://github.com/servo/libfreetype2#5b6499164106f094937565595c7b96d07de55521"
 
 [[package]]
+name = "gcc"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
 name = "geom"
 version = "0.1.0"
 source = "git+https://github.com/servo/rust-geom#e5e74911ac6d3201009879b72499d6c681302611"
@@ -264,19 +269,20 @@ source = "git+https://github.com/servo/rust-harfbuzz#8aab215463214647b7a81f66011
 [[package]]
 name = "html5ever"
 version = "0.0.0"
-source = "git+https://github.com/servo/html5ever?ref=servo#87c7e8b710391338b2463652be835f498923653c"
+source = "git+https://github.com/servo/html5ever#771e136a1fe2baec71cf489fcb4dd7bdaa091ea5"
 dependencies = [
- "html5ever_macros 0.0.0 (git+https://github.com/servo/html5ever?ref=servo)",
- "phf 0.0.0 (git+https://github.com/sfackler/rust-phf)",
- "phf_mac 0.0.0 (git+https://github.com/sfackler/rust-phf)",
+ "html5ever_macros 0.0.0 (git+https://github.com/servo/html5ever)",
+ "phf 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "phf_mac 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "string_cache 0.0.0 (git+https://github.com/servo/string-cache)",
  "string_cache_macros 0.0.0 (git+https://github.com/servo/string-cache)",
+ "time 0.1.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "html5ever_macros"
 version = "0.0.0"
-source = "git+https://github.com/servo/html5ever?ref=servo#87c7e8b710391338b2463652be835f498923653c"
+source = "git+https://github.com/servo/html5ever#771e136a1fe2baec71cf489fcb4dd7bdaa091ea5"
 
 [[package]]
 name = "hyper"
@@ -442,11 +448,36 @@ dependencies = [
 ]
 
 [[package]]
+name = "phf"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "phf_shared 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "phf_mac"
 version = "0.0.0"
 source = "git+https://github.com/sfackler/rust-phf#18a5ecc028055c3dbd650cc5a064b6fb033d82ef"
 dependencies = [
  "xxhash 0.0.1 (git+https://github.com/Jurily/rust-xxhash)",
+]
+
+[[package]]
+name = "phf_mac"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "phf_shared 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "time 0.1.3 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "phf_shared"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "xxhash 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -491,7 +522,7 @@ dependencies = [
  "encoding 0.2.0 (git+https://github.com/lifthrasiir/rust-encoding)",
  "geom 0.1.0 (git+https://github.com/servo/rust-geom)",
  "gfx 0.0.1",
- "html5ever 0.0.0 (git+https://github.com/servo/html5ever?ref=servo)",
+ "html5ever 0.0.0 (git+https://github.com/servo/html5ever)",
  "hyper 0.0.1 (git+https://github.com/servo/hyper?ref=servo)",
  "js 0.1.0 (git+https://github.com/servo/rust-mozjs)",
  "msg 0.0.1",
@@ -586,6 +617,14 @@ name = "task_info"
 version = "0.0.1"
 
 [[package]]
+name = "time"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "gcc 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "typeable"
 version = "0.0.3"
 source = "git+https://github.com/reem/rust-typeable#db8975daaa3889871f67eea11baeaefd8e706eaf"
@@ -598,10 +637,7 @@ source = "git+https://github.com/reem/rust-unsafe-any#eb3fe87bea85f375b8fcefa0cd
 [[package]]
 name = "url"
 version = "0.1.0"
-source = "git+https://github.com/servo/rust-url#8a61b7654ab5378b488225a1d8a9cbbbcbd38894"
-dependencies = [
- "encoding 0.2.0 (git+https://github.com/lifthrasiir/rust-encoding)",
-]
+source = "git+https://github.com/servo/rust-url#46458f80e48c542b2f175e36e5b7d30782ca7dc5"
 
 [[package]]
 name = "util"
@@ -630,4 +666,9 @@ source = "git+https://github.com/servo/rust-xlib#58ec3847b592aeabdcfeb6a2d02033d
 name = "xxhash"
 version = "0.0.1"
 source = "git+https://github.com/Jurily/rust-xxhash#7e4174e780af0cfb29a5e53ede0b987adca16396"
+
+[[package]]
+name = "xxhash"
+version = "0.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
