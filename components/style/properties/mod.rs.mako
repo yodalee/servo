@@ -1316,6 +1316,10 @@ pub mod longhands {
 
     ${single_keyword("table-layout", "auto fixed")}
 
+    ${new_style_struct("InheritedTable", is_inherited=True)}
+
+    ${single_keyword("caption-side", "top bottom")}
+
     // CSS 2.1, Section 18 - User interface
 
 
