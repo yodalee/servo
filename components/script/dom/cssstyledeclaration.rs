@@ -92,6 +92,15 @@ impl<'a> PrivateCSSStyleDeclarationHelpers for JSRef<'a, CSSStyleDeclaration> {
 }
 
 impl<'a> CSSStyleDeclarationMethods for JSRef<'a, CSSStyleDeclaration> {
+    // http://dev.w3.org/csswg/cssom/#dom-cssstyledeclaration-csstext
+    fn CssText(self) -> DOMString {
+        "".to_owned()
+    }
+
+    fn SetCssText(self, value: DOMString) -> ErrorResult {
+        Ok(())
+    }
+
     // http://dev.w3.org/csswg/cssom/#dom-cssstyledeclaration-length
     fn Length(self) -> u32 {
         let owner = self.owner.root();
