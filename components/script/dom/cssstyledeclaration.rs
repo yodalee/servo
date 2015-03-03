@@ -5,6 +5,7 @@
 use dom::bindings::codegen::Bindings::CSSStyleDeclarationBinding::{self, CSSStyleDeclarationMethods};
 use dom::bindings::codegen::InheritTypes::{NodeCast, ElementCast};
 use dom::bindings::error::{Error, ErrorResult, Fallible};
+use dom::bindings::error::Error::NoModificationAllowed;
 use dom::bindings::global::GlobalRef;
 use dom::bindings::js::{JS, JSRef, OptionalRootedRootable, Temporary};
 use dom::bindings::utils::{Reflector, reflect_dom_object};
@@ -94,10 +95,39 @@ impl<'a> PrivateCSSStyleDeclarationHelpers for JSRef<'a, CSSStyleDeclaration> {
 impl<'a> CSSStyleDeclarationMethods for JSRef<'a, CSSStyleDeclaration> {
     // http://dev.w3.org/csswg/cssom/#dom-cssstyledeclaration-csstext
     fn CssText(self) -> DOMString {
+        //TODO: the function is not implemented yet.
         "".to_owned()
     }
 
+    // http://dev.w3.org/csswg/cssom/#dom-cssstyledeclaration-csstext
     fn SetCssText(self, value: DOMString) -> ErrorResult {
+        // Step 1
+        if self.readonly {
+            return Err(Error::NoModificationAllowed);
+        }
+
+        let owner = self.owner.root();
+        let elem: JSRef<Element> = ElementCast::from_ref(owner.r());
+        let window = window_from_node(owner.r()).root();
+        let window = window.r();
+
+        // Step 2
+        *elem.style_attribute().borrow_mut() = None;
+
+        // Step 3
+        let decl_block = parse_style_attribute(value.as_slice(),
+                                               &window.get_url());
+        if decl_block.normal.len() != 0 {
+            for decl in decl_block.normal.iter() {
+                elem.update_inline_style(decl.clone(), StylePriority::Normal);
+            }
+        }
+        if decl_block.important.len() != 0 {
+            for decl in decl_block.important.iter() {
+                elem.update_inline_style(decl.clone(), StylePriority::Important);
+            }
+        }
+
         Ok(())
     }
 
