@@ -20,6 +20,7 @@ use util::geometry::Au;
 use url::Url;
 use cssparser::{Parser, Color, RGBA, AtRuleParser, DeclarationParser,
                 DeclarationListParser, parse_important, ToCss};
+use text_writer::{self, TextWriter};
 use geom::num::Zero;
 use geom::SideOffsets2D;
 use geom::size::Size2D;
@@ -4592,6 +4593,30 @@ pub struct PropertyDeclarationBlock {
     pub normal: Arc<Vec<PropertyDeclaration>>,
 }
 
+impl ToCss for PropertyDeclarationBlock {
+    // http://dev.w3.org/csswg/cssom/#serialize-a-css-declaration-block
+    fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        // Step 1 & 2
+        let mut list = Vec::new();
+        let mut serialized = Vec::new();
+
+        // Step 3
+        for declaration in self.normal.iter().chain(self.important.iter()) {
+            let property = declaration.name();
+            if serialized.contains(&property.to_owned()) {
+                continue;
+            }
+            let value = declaration.value();
+
+            // Step 3.4 - Step 3.8
+            list.push(value.to_string());
+            serialized.push(property.to_owned());
+        }
+
+        // Step 4
+        write!(dest, "")
+    }
+}
 
 pub fn parse_style_attribute(input: &str, base_url: &Url) -> PropertyDeclarationBlock {
     let context = ParserContext::new(Origin::Author, base_url);
