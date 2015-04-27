@@ -4603,18 +4603,31 @@ impl ToCss for PropertyDeclarationBlock {
         // Step 3
         for declaration in self.normal.iter().chain(self.important.iter()) {
             let property = declaration.name();
+            // Step 3.2
             if serialized.contains(&property.to_owned()) {
                 continue;
             }
-            let value = declaration.value();
 
-            // Step 3.4 - Step 3.8
-            list.push(value.to_string());
+            // Step 3.4, skip because duplicate with 3.2
+            // Step 3.5
+            let value = declaration.value();
+            // Step 3.6
+            let serializedDeclaration = format!("{}: {}{};", declaration.name(), declaration.value(),
+                if self.important.contains(declaration) {
+                    " important!"
+                } else {
+                    ""
+                });
+            // Step 3.7
+            list.push(serializedDeclaration);
+            // Step 3.8
             serialized.push(property.to_owned());
         }
-
         // Step 4
-        write!(dest, "")
+        let result = list.iter().fold(String::new(), |accum, ref result| {
+            accum + result + " "
+        });
+        write!(dest, "{}", result)
     }
 }
 
