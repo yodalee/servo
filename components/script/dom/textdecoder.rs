@@ -78,7 +78,7 @@ impl TextDecoderMethods for TextDecoder {
 
     #[allow(unsafe_code)]
     // https://encoding.spec.whatwg.org/#dom-textdecoder-decode
-    fn Decode(&self, _cx: *mut JSContext, input: Option<*mut JSObject>)
+    fn Decode(&self, _cx: *mut JSContext, input: Option<*mut JSObject>, options: &TextDecoderBinding::TextDecodeOptions)
               -> Fallible<USVString> {
         let input = match input {
             Some(input) => input,

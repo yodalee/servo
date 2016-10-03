@@ -8,6 +8,10 @@ dictionary TextDecoderOptions {
   //boolean ignoreBOM = false;
 };
 
+dictionary TextDecodeOptions {
+  boolean stream = false;
+};
+
 [Constructor(optional DOMString label = "utf-8", optional TextDecoderOptions options), Exposed=(Window,Worker)]
 interface TextDecoder {
   readonly attribute DOMString encoding;
@@ -15,5 +19,5 @@ interface TextDecoder {
   //readonly attribute boolean ignoreBOM;
   //USVString decode(optional BufferSource input, optional TextDecodeOptions options);
   [Throws]
-  USVString decode(optional object input);
+  USVString decode(optional object input, optional TextDecodeOptions options);
 };
