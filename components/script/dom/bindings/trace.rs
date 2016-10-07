@@ -40,7 +40,7 @@ use dom::bindings::refcounted::{Trusted, TrustedPromise};
 use dom::bindings::reflector::{Reflectable, Reflector};
 use dom::bindings::str::{DOMString, USVString};
 use dom::bindings::utils::WindowProxyHandler;
-use encoding::types::EncodingRef;
+use encoding::types::{EncodingRef, RawDecoder};
 use euclid::{Matrix2D, Matrix4D, Point2D};
 use euclid::length::Length as EuclidLength;
 use euclid::rect::Rect;
@@ -110,6 +110,8 @@ pub trait JSTraceable {
 no_jsmanaged_fields!(CSSError);
 
 no_jsmanaged_fields!(EncodingRef);
+
+no_jsmanaged_fields!(RawDecoder);
 
 no_jsmanaged_fields!(Reflector);
 

@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+use dom::bindings::cell::DOMRefCell;
 use dom::bindings::codegen::Bindings::TextDecoderBinding;
 use dom::bindings::codegen::Bindings::TextDecoderBinding::TextDecoderMethods;
 use dom::bindings::conversions::array_buffer_view_data;
@@ -11,7 +12,7 @@ use dom::bindings::js::Root;
 use dom::bindings::reflector::{Reflector, reflect_dom_object};
 use dom::bindings::str::{DOMString, USVString};
 use encoding::label::encoding_from_whatwg_label;
-use encoding::types::{DecoderTrap, EncodingRef};
+use encoding::types::{DecoderTrap, EncodingRef, RawDecoder};
 use js::jsapi::{JSContext, JSObject};
 use std::borrow::ToOwned;
 
@@ -20,6 +21,8 @@ pub struct TextDecoder {
     reflector_: Reflector,
     #[ignore_heap_size_of = "Defined in rust-encoding"]
     encoding: EncodingRef,
+    #[ignore_heap_size_of = "Defined in rust-encoding"]
+    decoder: DOMRefCell<Box<RawDecoder>>,
     fatal: bool,
 }
 
@@ -28,6 +31,7 @@ impl TextDecoder {
         TextDecoder {
             reflector_: Reflector::new(),
             encoding: encoding,
+            decoder: DOMRefCell::new(encoding.raw_decoder()),
             fatal: fatal,
         }
     }
