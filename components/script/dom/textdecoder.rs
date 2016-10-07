@@ -15,6 +15,7 @@ use encoding::label::encoding_from_whatwg_label;
 use encoding::types::{DecoderTrap, EncodingRef, RawDecoder};
 use js::jsapi::{JSContext, JSObject};
 use std::borrow::ToOwned;
+use std::cell::Cell;
 
 #[dom_struct]
 pub struct TextDecoder {
@@ -24,6 +25,8 @@ pub struct TextDecoder {
     #[ignore_heap_size_of = "Defined in rust-encoding"]
     decoder: DOMRefCell<Box<RawDecoder>>,
     fatal: bool,
+    donotflush: Cell<bool>,
+    BOMseen: Cell<bool>,
 }
 
 impl TextDecoder {
@@ -33,6 +36,8 @@ impl TextDecoder {
             encoding: encoding,
             decoder: DOMRefCell::new(encoding.raw_decoder()),
             fatal: fatal,
+            donotflush: Cell::new(false),
+            BOMseen: Cell::new(false),
         }
     }
 
